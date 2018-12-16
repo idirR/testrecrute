@@ -1,0 +1,17 @@
+{# etendre vers le template de base  #}
+{% extends 'base.html.twig' %}
+{% block body %}
+<h1> panier <h1>
+ <produit>
+<h2>{{produit.title }} {{produit.id}}</h2>
+
+<div class="content">
+<img src="http://placehold.it/350x150" alt="">
+
+
+{{produit.content | raw }}
+</produit>
+ 
+
+
+{% endblock %}

@@ -1,0 +1,27 @@
+{# etendre vers le template de base  #}
+
+{% extends 'base.html.twig' %}
+{% block body %}
+<h1> Bienvenue <h1>
+{# une boucle pour parcourire le tableau de tout les produits  #}
+{% for produit in produits %}
+<produit>
+{# recupererle titre et le id d'un produit  #}
+<h2>{{produit.title }} {{produit.id}}</h2>
+
+<div class="content">
+<img src="http://placehold.it/350x150" alt="">
+
+</div>
+
+
+{{produit.content | raw }}
+
+<a href="panier/"~ produit.id class="btn-primary">ajouter au pagnier</a>
+
+</produit>
+
+
+{%endfor%}
+
+{% endblock %}
