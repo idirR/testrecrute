@@ -111,21 +111,20 @@ class ProduitsController extends Controller
             return $this->render('produits/afiche.html.twig', [
            'produit'=>$produit
         ]);
-            
-        
-
-       
-    
-
-
-        
-
-        
-    
 }
      
 
-    
+    /**
+     * @Route("valider", name="valider")
+     */
+
+
+     public function valider()
+    {
+        return $this->render('produits/valider.html.twig', [
+            'controller_name' => 'ProduitsController',
+        ]);
+    }
 
 
     
