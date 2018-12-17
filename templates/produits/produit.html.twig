@@ -17,7 +17,7 @@
 
 {{produit.content | raw }}
 
-<a href="panier/"~ produit.id class="btn-primary">ajouter au pagnier</a>
+<a href=" {{path('afiche', {'id': produit.id}) }}" class="btn-primary">ajouter au pagnier</a>
 
 </produit>
 

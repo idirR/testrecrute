@@ -56,6 +56,7 @@ class SecuriteController extends Controller
 
     public function login(){
     	//faire appel a la page de connexion
+      
 
     	return $this ->render('securite/login.html.twig');
     }

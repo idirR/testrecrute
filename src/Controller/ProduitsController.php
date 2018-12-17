@@ -7,6 +7,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Form\Extension\Core\type\SubmitType;
 use Symfony\Component\Form\Extension\Core\type\PasswordType;
 use Symfony\Component\Form\Extension\Core\type\EmailType;
+use Symfony\Component\Validator\Constraints\DateTime;
 
 use Symfony\Component\HttpFoundation\Request;
 
@@ -16,13 +17,15 @@ use Doctrine\Common\Persistence\ObjectManager;
 //importer les classes Personne et Produit
 use App\Entity\Personne;
 use App\Entity\Produit;
+use App\Entity\Panier;
+use App\Entity\User;
 //importer PersonneRepository
 use App\getRepository\PersonneRepository;
 
 class ProduitsController extends Controller
 {
     /**
-     * @Route("/produits", name="produits")
+     * @Route("/produits{id}", name="produits")
      */
     public function index()
     {
@@ -60,27 +63,66 @@ class ProduitsController extends Controller
     }
 
     /**
-     * @Route("panier/{id}", name="panier")
+     * @Route("panier", name="panier")
      */
 
 
-     public function panier($id)
+     public function panier()
     {
-        $repo=$this->getDoctrine()->getRepository(produit::class);
-        $produits=$repo->find($id);
+        $repopanier=$this->getDoctrine()->getRepository(Panier::class);
+        $paniers=$repopanier->findAll();
 
+      $repoproduit=$this->getDoctrine()->getRepository(Produit::class);
+        $produits=$repoproduit->findAll();
+        
 
-        //ajouter un article a la table panier 
-
-        //ajouter la personne a la table panier
-        //ajouter une date
-        // 'produits'=>$produits
-
-        return $this->render('produits/panier.html.twig', [
+        return $this->render('produits/panier.html.twig', ['controller_name' => 'ProduitsController',
+           'paniers'=>$paniers,
            'produits'=>$produits
         ]);
-    }
+     }
 
+
+     /**
+     * @Route("/produits/{id}", name="afiche")
+     */
+
+         public function afiche($id,ObjectManager $manager)
+    {
+        $repo=$this->getDoctrine()->getRepository(Produit::class);
+        $produit=$repo->find($id);
+
+        
+       $user = $this->getUser();     
+              $panier = new Panier();
+
+            
+            $panier->setEmail( $user->getEmail() )
+                    ->setIdProduit($id)
+
+                    ->setDateAjout(new \DateTime());
+
+
+            $manager->persist($panier);
+
+
+            $manager->flush();
+
+            return $this->render('produits/afiche.html.twig', [
+           'produit'=>$produit
+        ]);
+            
+        
+
+       
+    
+
+
+        
+
+        
+    
+}
      
 
     
